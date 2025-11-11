@@ -1,0 +1,28 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Bag recordings and heavy data
+rosbag2_*/
+*.db3
+*.pcd
+*.ply
+
+# Jetson or local environment files
+*.launch.user
+*.pyc
+__pycache__/
+*.swp
+.DS_Store
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# Output PDFs or temporary visualizations
+*.pdf
+*.gv
+
+# Metadata or cached lidar configs
+*metadata.json

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot name="drone_model" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Add a dummy link to match the TF parent frame -->
+  <link name="lidar_link"/>
+
+  <!-- Base link (drone body visual) -->
+  <joint name="lidar_link_joint" type="fixed">
+    <parent link="lidar_link"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://my_drone_description/meshes/drone_body.dae"
+              scale="0.2 0.2 0.2"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.6 0.6 0.3"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- LiDAR sensor -->
+  <joint name="os_sensor_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="os_sensor"/>
+    <origin xyz="0.0 0.0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <link name="os_sensor">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <material name="blue">
+        <color rgba="0.1 0.3 0.8 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+</robot>
+
