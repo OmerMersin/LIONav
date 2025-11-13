@@ -36,15 +36,6 @@
   </joint>
 
   <link name="os_sensor">
-    <visual>
-      <geometry>
-        <cylinder radius="0.05" length="0.05"/>
-      </geometry>
-      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
-      <material name="blue">
-        <color rgba="0.1 0.3 0.8 1.0"/>
-      </material>
-    </visual>
   </link>
 
 </robot>
