@@ -28,7 +28,8 @@ class TrajectoryRecorder(Node):
 
         # Prepare CSV file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.filename = f"/home/orin/rtl_traj_{timestamp}.csv"
+        # self.filename = f"/home/orin/rtl_traj_{timestamp}.csv"
+        self.filename = f"/home/orin/rtl_traj_latest.csv"
         self.csvfile = open(self.filename, 'w', newline='')
         self.writer = csv.writer(self.csvfile)
         self.writer.writerow([
@@ -61,22 +62,43 @@ class TrajectoryRecorder(Node):
             self.get_logger().info(f"Recorded {self.count} poses...")
 
     def destroy_node(self):
-        self.csvfile.close()
-        self.get_logger().info("💾 Trajectory recording stopped.")
-        super().destroy_node()
+        try:
+            self.csvfile.close()
+            self.get_logger().info("💾 Trajectory recording stopped.")
+        except:
+            pass  # Suppress any errors during cleanup
+        try:
+            super().destroy_node()
+        except:
+            pass  # Node may already be destroyed
 
 
 def main():
+    from rclpy.executors import ExternalShutdownException
+    
     rclpy.init()
     node = TrajectoryRecorder()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
+    except ExternalShutdownException:
+        # Suppress ROS2 shutdown exceptions (expected when terminated externally)
+        pass
+    except Exception as e:
+        node.get_logger().error(f'Error during recording: {e}')
     finally:
-        if node is not None:
-            node.destroy_node()
-        rclpy.try_shutdown()
+        try:
+            if node is not None:
+                node.destroy_node()
+        except:
+            pass  # Suppress cleanup errors
+        
+        try:
+            if rclpy.ok():
+                rclpy.shutdown()
+        except:
+            pass  # Context may already be shut down
 
 
 if __name__ == '__main__':
