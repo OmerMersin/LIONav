@@ -1,0 +1,6 @@
+[submodule "ros2_ws/src/LIO-SAM"]
+	path = ros2_ws/src/LIO-SAM
+	url = https://github.com/TixiaoShan/LIO-SAM.git
+[submodule "ros2_ws/src/ouster-ros"]
+	path = ros2_ws/src/ouster-ros
+	url = https://github.com/ouster-lidar/ouster-ros.git
