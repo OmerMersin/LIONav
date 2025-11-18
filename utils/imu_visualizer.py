@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSDurabilityPolicy, QoSHistoryPolicy
 from sensor_msgs.msg import Imu
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,12 +14,7 @@ class ImuVisualizer(Node):
         super().__init__('imu_visualizer')
 
         # Match MAVROS IMU QoS (BEST_EFFORT)
-        qos = QoSProfile(
-            reliability=QoSReliabilityPolicy.BEST_EFFORT,
-            history=QoSHistoryPolicy.KEEP_LAST,
-            depth=10
-        )
-
+        qos = QoSProfile( reliability=QoSReliabilityPolicy.BEST_EFFORT, history=QoSHistoryPolicy.KEEP_LAST, depth=10 )
         # Subscriber
         self.sub = self.create_subscription(Imu, '/mavros/imu/data', self.imu_callback, qos)
         self.get_logger().info("Listening to /mavros/imu/data with BEST_EFFORT QoS...")
